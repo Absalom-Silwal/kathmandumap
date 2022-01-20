@@ -1,3 +1,77 @@
+
+.header{
+    display: flex;
+    height: 30px;
+    padding: 15px;
+    
+}
+.header > div {
+    width: 15%;
+    height: 30px;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: rgb(78, 163, 243);
+    
+}
+.total{
+    
+    background-color: rgb(78, 163, 243);
+}
+.title{
+    float: left;
+    font-size: 12px;
+    font-weight: bolder;
+    color:white;
+}
+.num{
+    font-size: 25px;
+    font-weight: bolder;
+    float: right;
+    color:whitesmoke;
+}
+.mid{
+    margin-top: 20px;
+    display:flex;
+    background-color: rgb(64, 66, 65);
+    
+}
+.mid > div{
+    padding: 10px;
+}
+.chart{
+    height: 60vh;
+    width:40vw;
+    background-color: rgb(64, 66, 65);
+    border-radius: 5px;
+    padding: 5px;
+}
 .main {
     display: flex;
+}
+.description {
+    background-color: aliceblue;
+    height: 90vh;
+    width:30vw;
+    position: absolute;
+    z-index: 1;
+    
+}
+.map {
+    position: absolute;
+    z-index: -1;
+    border-radius: 5px;
+}
+.mapDiv{
+    position: absolute;
+    z-index: 0;  
+}
+p {
+    float:right;
+}
+
+.studentCount{
+    padding: 40px;
+    padding-right: 150px;
 }
