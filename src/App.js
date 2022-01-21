@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 
 import symbol from "./schoolSymbol.png"
+import pic from "./schoolPic.jpg"
 import { useSelector, useDispatch} from 'react-redux'
-import { loadData } from './actions/loadData';
+import { loadData,filterData } from './actions/loadData';
 import {viewPort} from './actions/viewport';
 import { showChart ,removeChart} from './actions/chart';
 import {selectedSchool,unSelectSchool} from './actions/selectedSchool'
@@ -14,9 +15,11 @@ import classes from './App.module.css'
 import Chart from 'chart.js/auto'
 
 
+
 function App() {
   const dispatch = useDispatch();
-  const data = useSelector(state=>state.data.data)
+  const fltr = useSelector(state=>state.data.filterData)
+  const fltrChoice = useSelector(state=>state.data.choice)
   const mapViewPort = useSelector(state => state.viewPort.viewPort)
   const mapData =  useSelector(state => state.data.data.features)
   const schoolData = useSelector(state =>state.selectedSchoolData)
@@ -27,16 +30,26 @@ function App() {
  const others = mapData.length-primary.length-lowerSecondary.length-secondary.length-college.length
   
   console.log(mapData.length,primary.length,lowerSecondary.length,secondary.length,college.length)
-  console.log(mapData[0].properties['isced:level'])
+  console.log(mapData[0].properties['isced:level'],fltrChoice)
   const lessThan100 = mapData.filter(school=>school.properties['student:count']<=100)
   const lessThan500 = mapData.filter(school=>school.properties['student:count']<=500)
   const greaterThan500 = mapData.filter(school=>school.properties['student:count']>500)
   const greaterThan1000 = mapData.filter(school=>school.properties['student:count']>1000)
   const chartData = useSelector(state=>state.chart)
-  console.log(chartData)
+  
   const labels = ['<100','100-500','500-1000','>1000']
   const dataset = [lessThan100.length,lessThan500.length-lessThan100.length,greaterThan500.length-greaterThan1000.length,greaterThan1000.length]
   console.log(dataset)
+  
+  
+  let fltrDataMap=''
+  
+  if(fltr){
+    fltrDataMap = mapData.filter(school=>school.properties['isced:level']===fltrChoice)
+  }else{
+    fltrDataMap = mapData
+  }
+  console.log(fltrDataMap)                                        
   return (
     <div className={classes.body}>
     
@@ -69,7 +82,7 @@ function App() {
       </div>
       
     </div>
-    <div><button onClick={()=>dispatch(showChart(labels,dataset))}>graph</button></div>
+    
     <div className={classes.mid}>
     {chartData.show?(
       <div className={classes.chart}>
@@ -77,6 +90,7 @@ function App() {
       <Line
           data={chartData.chart}
           options={{
+            indexAxis: 'y',
             legend:{
               display:false
             },
@@ -102,28 +116,48 @@ function App() {
           }} }
         />
       </div>
-    ):(
+    ):(<div className={classes.replaceContainer}>
       <div className={classes.replace}>
-      <div className={classes.title}>Schools Basedon Student Count  </div>
-      <div className={classes.studentCount}>
+      <div className={classes.rephdr}>
+        <div className={classes.title}>Schools</div>
+        <div className={classes.rphdrnum}>Student Count</div>
+      </div>
+      <div className={classes.lehu}>
         <div className={classes.title}>lessThan100</div>
         <div className={classes.num}>{lessThan100.length}</div>
       </div>
-      <div className={classes.studentCount}>
+      <div className={classes.hutofi}>
         <div className={classes.title}>100-500</div>
-        <div className={classes.num}>{lessThan100.length}</div>
+        <div className={classes.num}>{lessThan500.length-lessThan100.length}</div>
       </div>
-      <div className={classes.studentCount}>
+      <div className={classes.fitoth}>
         <div className={classes.title}>500-1000</div>
-        <div className={classes.num}>{lessThan100.length}</div>
+        <div className={classes.num}>{greaterThan500.length-greaterThan1000.length}</div>
       </div>
-      <div className={classes.studentCount}>
+      <div className={classes.grth}>
         <div className={classes.title}>greaterThan1000</div>
-        <div className={classes.num}>{lessThan100.length}</div>
+        <div className={classes.num}>{greaterThan500.length-greaterThan1000.length,greaterThan1000.length}</div>
       </div>
+      </div>
+       <div className={classes.btnDiv}>
+       
+      <div className={classes.filterHeader}>filters</div>
+      <div className={classes.graphbtn}><button onClick={()=>dispatch(showChart(labels,dataset))}>graph</button></div>
+      <div className={classes.top}>
+       <div className={classes.first}><button onClick={()=>dispatch(loadData())}>all</button></div>
+        <div className={classes.second}><button onClick={()=>dispatch(filterData('primary'))}>primary</button></div>
+      </div>
+       
+        <div className={classes.third}><button onClick={()=>dispatch(filterData('lower_secondary'))}>lowerSecondary</button></div>
+      <div className={classes.bottom}>
+       <div className={classes.fourth}><button onClick={()=>dispatch(filterData('secondary'))}>secondary</button></div>
+        <div className={classes.fifth}><button onClick={()=>dispatch(filterData('college'))}>college</button></div>
+      </div>
+       
+      </div>  
       </div>
     )}
-    
+     
       <div >
       <ReactMapGL
         {...mapViewPort}
@@ -132,38 +166,46 @@ function App() {
         mapStyle="mapbox://styles/absalom-7/ckyn48o8g4zhg14l2d53tzqab"
         onViewportChange={nextViewport => dispatch(viewPort(nextViewport))}
      >
-     <div>
+     <div className={classes.mapContainer}>
+     <div className={classes.mapHeader}>{fltrChoice} schools of kathmandu</div>
        {schoolData.selected?(
          <div className={classes.main}>
+         
            <div>
-             {mapData.map((mapData)=>{
+             {fltrDataMap.map((mapData)=>{
                return(
                  <Marker
                   key={mapData.id}
                   latitude={mapData.geometry.coordinates[0][0][1]}
                   longitude={mapData.geometry.coordinates[0][0][0]}
                  >
-                   <img src={symbol}  height='10' width='10' onClick={()=>dispatch(selectedSchool(mapData))} />
+                   <img src={symbol}  height='20' width='20' onClick={()=>dispatch(selectedSchool(mapData))} />
+
                  </Marker>
                )
              })}
            </div>
            <div className={classes.description}>
-           <button onClick={()=>dispatch(unSelectSchool())}>X</button>
-           {schoolData.selectedSchool.properties.name}
+           <div><button onClick={()=>dispatch(unSelectSchool())}>X</button></div>
+           <div><img src={pic} heigth='30%' width='90%'/></div>
+           <div><h1>{schoolData.selectedSchool.properties.name}</h1></div>
+           <div>level:{schoolData.selectedSchool.properties['isced:level']}</div>
+           <div>Student count:{schoolData.selectedSchool.properties['student:count']}</div>
+           
+           
            </div>
          </div>
        ):(
         <div>
 
-          {mapData.map((mapData)=>{
+          {fltrDataMap.map((mapData)=>{
             return(
               <Marker
               key={mapData.id}
               latitude={mapData.geometry.coordinates[0][0][1]}
               longitude={mapData.geometry.coordinates[0][0][0]}
               >
-                <img src={symbol}  height='10' width='10' onClick={()=>dispatch(selectedSchool(mapData))} />
+                <img src={symbol}  height='30' width='20' onClick={()=>dispatch(selectedSchool(mapData))} />
               </Marker>
             )
             

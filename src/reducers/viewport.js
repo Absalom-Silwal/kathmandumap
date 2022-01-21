@@ -4,8 +4,8 @@ const initState = {
     viewPort:{
         latitude: 27.7172,
         longitude: 85.3240,
-        width: "65vw",
-        height: "75vh",
+        width: "57vw",
+        height: "85vh",
         zoom:12
     }
     

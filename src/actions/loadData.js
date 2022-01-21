@@ -1,6 +1,12 @@
 export const loadData = ()=>{
     return{
-        type: 'loadData',
+        type: 'loadAllData',
     }
    
+}
+export const filterData=(choice)=>{
+    return{
+        type:'filterData',
+        choice:choice
+    }
 }

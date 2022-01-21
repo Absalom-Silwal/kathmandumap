@@ -1,23 +1,34 @@
 
 .header{
     display: flex;
-    height: 30px;
+    width:97vw;
+    height: 50px;
     padding: 15px;
+    padding-right:0px;
+    background-color: rgb(64, 66, 65);
     
 }
 .header > div {
-    width: 15%;
+    width: 30%;
     height: 30px;
     padding: 20px;
-    margin: 10px;
+    padding-left:0px;
+    padding-right:20px;
+    padding-left:20px;
+    border-right: 2px solid;
+    border-color:white;
     border-radius: 5px;
     text-align: center;
-    background-color: rgb(78, 163, 243);
+   background-color:rgb(64, 66, 65)
     
 }
 .total{
     
+    margin-left:3px;
     background-color: rgb(78, 163, 243);
+}
+.others{
+    width:100px;
 }
 .title{
     float: left;
@@ -38,11 +49,10 @@
     
 }
 .mid > div{
-    padding: 10px;
+    padding: 5px;
 }
 .chart{
-    height: 60vh;
-    width:40vw;
+    width:550px;
     background-color: rgb(64, 66, 65);
     border-radius: 5px;
     padding: 5px;
@@ -70,8 +80,117 @@
 p {
     float:right;
 }
+.replace{
+    margin:3px;
+}
+.replace>div{
+    margin:15px;
+    height:30px;
+    width:14vw;
+    padding: 10px;
+    padding-right: 5px;
+    border-radius:5px;
+}
 
-.studentCount{
-    padding: 40px;
-    padding-right: 150px;
+.rphdrnum{
+    font-size:13px;
+    font-weight:bolder;
+    float:right;
+    color:white;
+   
+}
+
+.lehu{
+    background-color:rgb(224, 122, 20);
+}
+
+
+
+.hutofi{
+
+    background-color:rgb(8, 199, 142);
+}
+
+.fitoth{
+
+    background-color:rgb(181, 38, 31);
+}
+.grth{
+
+    background-color:rgb(52, 149, 179);
+}
+.countNum{
+    float:right;
+   
+}
+.mapHeader{
+    font-size: 20px;
+    font-weight: bolder;
+    padding-left: 20px;
+}
+.btnDiv{
+    margin-left:10px;
+    padding-top:10px;
+    padding-left:20px;
+    border-left:2px solid;
+    border-color:white;
+    height:84.5vh;
+    
+}
+.btnDiv>div{
+    margin-top:30px;
+}
+.filterHeader{
+    padding-left:55px;
+    color:white;
+    font-weight:bold;
+}
+.top{
+    display:flex
+}
+.top>div>button{
+    height:40px;
+    color:white;
+    font-weight:bold;
+    background-color:rgb(8, 199, 142);
+}
+.bottom{
+    display:flex;
+    
+}
+.bottom>div>button{
+    height:40px;
+    color:white;
+    font-weight:bold;
+    background-color:rgb(52, 149, 179);
+}
+.first{
+    padding-right:70px;
+}
+.third{
+    padding-left:20px;
+}
+.graphbtn{
+    padding-left:20px;
+}
+.graphbtn>button{
+    height:40px;
+    width:130px;
+    background-color:rgb(224, 122, 20);
+    color:white;
+    font-size:15px;  
+}
+.third>button{
+    height:40px;
+    width:130px;
+    background-color:rgb(181, 38, 31);
+    color:white;
+    font-size:15px;
+}
+.fourth{
+    padding-right:30px;
+}
+.replaceContainer{
+    display:flex;
+
 }
